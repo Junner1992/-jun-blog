@@ -1,0 +1,29 @@
+{
+  "name": "projects",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "start": "nodemon server.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "bluebird": "^3.5.5",
+    "html-entities": "^1.2.1",
+    "koa": "^2.7.0",
+    "koa-art-template": "^1.1.1",
+    "koa-better-body": "^3.0.4",
+    "koa-convert": "^1.2.0",
+    "koa-router": "^7.4.0",
+    "koa-send": "^5.0.0",
+    "koa-session": "^5.12.0",
+    "koa-static": "^5.0.0",
+    "memorystream": "^0.3.1",
+    "promise-fs": "^2.1.0",
+    "promise-mysql": "^4.0.0",
+    "redis": "^2.8.0",
+    "uuid": "^3.3.2"
+  }
+}

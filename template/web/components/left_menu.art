@@ -1,0 +1,45 @@
+<div class="left_menu">
+    <div class="avatar">
+      <img src="/image/picture.jpg" height="100%" alt="">
+    </div>
+    <p class="username">@Jun</p>
+    <nav class="nav">
+      <ul>
+        <li><a href="/home">Home</a></li>
+        <li><a href="/blog">博客分享</a></li>
+        <li><a href="/shortcuts">快捷方式</a></li>
+        <li><a href="/msg">留言墙</a></li>
+      </ul>
+    </nav>
+    <span class="open_btn">
+      <img src="/image/open.png" width="30%"  alt="">
+    </span>
+  </div>
+<script>
+  const tab_index = "{{ tab_index }}"
+
+  //左侧菜单
+  window.onload = function(){
+    const 
+    open_btn = $('.open_btn'),
+    left_menu = $('.left_menu'),
+    rig_container = $('.rig_container');
+
+    open_btn.onclick = () => {
+      let num = parseInt(getStyle(left_menu, 'left'))
+      if (num == 0) {
+        animate(left_menu, { "left": -200 }, () => {
+          open_btn.style.transform = "rotate(180deg)"
+        });
+        rig_container.style.width = "100%"
+      } else {
+        animate(left_menu, { "left": 0 }, () => {
+          open_btn.style.transform = "rotate(0deg)"
+        });
+        rig_container.style.width = "calc(100% - 200px)"
+      }
+    }
+    if(!tab_index) return
+    $('.nav', 'a')[tab_index].className = 'active'
+  }
+</script>

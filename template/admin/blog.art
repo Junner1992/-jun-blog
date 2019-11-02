@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Blog管理</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+  
+  <div class="container">
+    {{include './components/head.art'}}
+    
+    <a href="/admin/addblog" target="_blank">
+      <button  style="margin: 20px 20px 20px 0;" class="btn btn-primary">新增</button>
+    </a>
+    
+    <button id="btn_del" style="margin: 20px 20px 20px 0;" class="btn btn-danger">删除</button>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" id="check_all">
+          </th>
+          <th>ID</th>
+          <th>blog_id</th>
+          <th>文章标题</th>
+          <th>标签</th>
+          <th>创建日期</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let i=0;i < data.length;i++) {%>
+        <tr>
+          <td>
+            <input type="checkbox" class="check_id" value="{{data[i].ID}}">
+          </td>
+          <td>{{data[i].ID}}</td>
+          <td>{{data[i].blog_id}}</td>
+          <td>{{data[i].title}}</td>
+          <td>{{data[i].tip}}</td>
+          <td>{{data[i].createTime}}</td>
+          <td>
+            <button type="button" class="btn btn-default" onclick='edit_data("{{data[i].ID}}")'>修改</button>
+            <button type="button" class="btn btn-danger" onclick='del_data("{{data[i].ID}}")'>删除</button>
+          </td>
+        </tr>
+        <%}%>
+      </tbody>
+    </table>
+    <%if(page_count>1){%>
+  <nav>
+    <ul class="pagination">
+      <%if(page>1){%>
+      <li>
+        <a href="/admin/blog/<%=page-1%>">
+          <span>&laquo;</span>
+        </a>
+      </li>
+      <%}%>
+
+          <%for(let i=1;i<=page_count;i++){%>
+      <%if(i==page){%>
+      <li class="active"><a href="#"><%=i%></a></li>
+      <%}else{%>
+      <li><a href="/admin/blog/<%=i%>"><%=i%></a></li>
+      <%}%>
+          <%}%>
+
+      <%if(page<page_count){%>
+      <li>
+        <a href="/admin/blog/<%=page+1%>">
+          <span>&raquo;</span>
+        </a>
+      </li>
+      <%}%>
+        </ul>
+      </nav>
+    <%}%>
+  </div>
+
+
+  <script src="/js/libs.js"></script>
+  <script>
+
+    //修改
+    function edit_data(old_data) {
+      window.location = '/admin/editblog/'+old_data
+    }
+
+
+    //删除单条数据
+    function del_data(id){
+      if (confirm("确定删除？")) {
+        window.location = `/admin/delblog/${JSON.stringify([id])}`;
+      }
+    }
+
+    //全选
+    let checks = [...$('.check_id')]
+    $('#check_all').onclick = function(){
+      let checked = this.checked
+      checks.map(item =>{
+        item.checked = checked
+      })
+    }
+
+    //多选删除
+    $('#btn_del').onclick=function(){
+      let ids = checks.filter(ch => ch.checked).map(ch => ch.value)
+      if (ids.length == 0) return alert('请选择要删除的数据')
+      if (confirm(`确定删除这${ids.length}个数据吗？`)) {
+        window.location = `/admin/delblog/${JSON.stringify(ids)}`
+      }
+    }
+
+    
+
+  </script>
+</body>
+</html>

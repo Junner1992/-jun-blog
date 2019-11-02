@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>@jun 的博客</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  
+  <div class="msg_container">
+    <a href="javascript:history.go(-1)" class="back">
+      <img src="./image/back.png" alt="">
+    </a>
+    <a href="javascript:;" class="add_msg">
+      <img src="./image/add_msg.png" alt="">
+    </a>
+
+    {{each data }}
+    <div class="list">
+      <p class="msg">{{$value.value}}</p>
+
+      <p class="name">{{$value.name}}</p>
+    </div>
+   {{/each}}
+   
+  </div>
+  
+  <div class="dialog">
+    <div class="box">
+      <input class="name" type="text" placeholder="输入昵称">
+      <textarea onkeyup="getTexts()" placeholder="输入内容"></textarea>
+      <p class="font_len">150/150</p>
+      <input class="submit" type="button" value="发送">
+    </div>
+  </div>
+  <script src="/js/libs.js"></script>
+  
+  <script>
+  function openDialog(){
+    $('.add_msg').onclick = ()=>{
+      $('.dialog').style.display = 'block'
+      $('.dialog').onclick =(event)=>{
+        if (event.target.className !== 'dialog') return;
+        $('.dialog').style.display = 'none'
+      }
+    }
+  }
+  openDialog()
+
+  const input = $('.box','.name')[0];
+  const textarea = $('textarea');
+  const font_len = $('.font_len');
+
+  let fontmaxlen = 150
+  function getTexts(){
+    let len = textarea.value.length
+    if(len > fontmaxlen){
+      len = fontmaxlen
+      textarea.value = textarea.value.substr(0, fontmaxlen)
+    }
+    font_len.innerHTML = `${fontmaxlen - len}/${fontmaxlen}`
+  } 
+
+  
+  function addMsg(){
+    $('.submit').onclick=()=>{
+      
+      let data = {name:input.value,value:textarea.value}
+      if(data.name == '' || data.value == '') {
+        return alert('请输入内容后再提交。。。- -！')
+      }
+      fetch('/msg', {
+        method: "POST",
+        headers: {
+          'Content-type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      })
+      .then(res =>{
+        if(res.ok){
+          alert('提交成功')
+          textarea.value = input.value = '';
+          $('.dialog').style.display = 'none'
+          window.location = '/msg'
+        }
+      })
+      .catch(e =>console.log(e))
+    }
+  }
+  addMsg()
+
+  Array.from($('.msg')).forEach(item => {
+    item.innerHTML = item.innerHTML.replace(/\n/g,'</br>')
+  })
+
+
+  </script>
+</body>
+</html>

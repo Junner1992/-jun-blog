@@ -1,0 +1,15 @@
+<div class="header">
+  <ul class="nav nav-tabs">
+    <li><a href="/admin/news">news管理</a></li>
+    <li><a href="/admin/blog">blog管理</a></li>
+    <li><a href="/admin/shortcuts">快捷方式管理</a></li>
+    <li><a href="/admin/msg">留言管理</a></li>
+  </ul>
+</div>
+
+<script>
+  window.onload = function(){
+    const act_num = "{{act_num}}"
+    $('.header','li')[act_num].className = 'active'
+  }
+</script>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>@jun 的博客</title>
+  <link rel="stylesheet" href="/css/style.css">
+  <script src="/js/libs.js"></script>
+</head>
+<body>
+ {{include './components/left_menu.art'}}
+ 
+ 
+  <div class="rig_container">
+    
+    {{each data item}}
+    <div class="list_box">
+      <div class="title">
+        <a href="/article/{{item.blog_id}}" target="_blank">
+          <h3>{{item.title}}</h3>
+        </a>
+        <span class="label">{{item.tip}}</span>
+      </div>
+      <p class="time">{{item.createTime}}</p>
+      <p class="desc">{{item.title}}...</p>
+    </div>
+    {{/each}}
+    
+    {{if page_count > 1}}
+      <div class="pagination">
+        {{if page >1}}
+        <a class="prev" href="/blog/{{page - 1}}">上一页</a>
+        {{/if}}
+
+          <%for(let i=1;i<=page_count;i++){%>
+            <%if(i==page){%>
+            <a class="act page" href="#"><%=i%></a>
+            <%}else{%>
+            <a class="page" href="/blog/<%=i%>"><%=i%></a>
+            <%}%>
+          <%}%>
+
+
+        {{if page < page_count}}
+        <a class="next" href="/blog/{{page + 1}}">下一页</a>
+        {{/if}}
+      </div>
+    {{/if}}
+  </div>
+</body>
+</html>

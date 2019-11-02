@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>news管理</title>
+  <link rel="stylesheet" href="/css/bootstrap.css">
+</head>
+<body>
+  
+  <div class="container">
+    {{include './components/head.art'}}
+    {{include './components/addNews.art'}}
+    {{include './components/editNews.art'}}
+    
+    <button id="btn_add" style="margin: 20px 20px 20px 0;" class="btn btn-primary">新增</button>
+    <button id="btn_del" style="margin: 20px 20px 20px 0;" class="btn btn-danger">删除</button>
+
+    <table class="table table-hover">
+      <thead>
+        <tr>
+          <th>
+            <input type="checkbox" id="check_all">
+          </th>
+          <th>ID</th>
+          <th>标题</th>
+          <th>标签</th>
+          <th>创建日期</th>
+          <th>操作</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% for(let i=0;i < data.length;i++) {%>
+        <tr>
+          <td>
+            <input type="checkbox" class="check_id" value="{{data[i].ID}}">
+          </td>
+          <td>{{data[i].ID}}</td>
+          <td>{{data[i].title}}</td>
+          <td>{{data[i].tip}}</td>
+          <td>{{data[i].createTime}}</td>
+          <td>
+            <button type="button" class="btn btn-default" onclick='edit_data(<%=data[i]%>)'>修改</button>
+            <button type="button" class="btn btn-danger" onclick='del_data("{{data[i].ID}}")'>删除</button>
+          </td>
+        </tr>
+        <%}%>
+      </tbody>
+    </table>
+  </div>
+
+
+  <script src="/js/libs.js"></script>
+  <script>
+
+    //打开添加弹窗
+    $('#btn_add').onclick = function(){
+      $('#shadow').style.display = 'block'
+      $('#dialog').style.display = 'block'
+      //关闭弹窗
+      $('#btn_cancel').onclick = $('#btn_close').onclick=function(){
+        $('#shadow').style.display = 'none'
+        $('#dialog').style.display = 'none'
+      }
+    }
+
+    //删除单条数据
+    function del_data(id){
+      if (confirm("确定删除？")) {
+        window.location = `/admin/delnews/${JSON.stringify([id])}`;
+      }
+    }
+
+    //全选
+    let checks = [...$('.check_id')]
+    $('#check_all').onclick = function(){
+      let checked = this.checked
+      checks.map(item =>{
+        item.checked = checked
+      })
+    }
+
+    //多选删除
+    $('#btn_del').onclick=function(){
+      let ids = checks.filter(ch => ch.checked).map(ch => ch.value)
+      if (ids.length == 0) return alert('请选择要删除的数据')
+      if (confirm(`确定删除这${ids.length}个数据吗？`)) {
+        window.location = `/admin/delnews/${JSON.stringify(ids)}`
+      }
+    }
+
+    //修改
+    function edit_data(old_data){
+        $('#shadow2').style.display = 'block'
+        $('#dialog2').style.display = 'block'  
+        //关闭弹窗
+        $('#btn_cancel2').onclick = $('#btn_close2').onclick = function () {
+          $('#shadow2').style.display = 'none'
+          $('#dialog2').style.display = 'none'
+        }
+        // console.log(old_data)
+        $('#editFrom').action = `/admin/editnews/${old_data.ID}`
+        $('.editTitle').value = old_data.title
+        $('.editContext').value = old_data.context
+        $('.editTip').value = old_data.tip
+    }
+
+  </script>
+</body>
+</html>

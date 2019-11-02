@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>@jun 的博客</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+  {{include './components/left_menu.art'}}
+  
+  <div class="rig_container">
+    
+
+    {{each data item}}
+    <div class="news_box">
+
+      <div class="title">
+        <h3>{{item.title}}</h3>
+      </div>
+      <div class="context_box">
+        <p>{{item.context}}</p>
+      </div>
+
+      <div class="bot_label">
+        <p class="time">{{item.createTime}}</p>
+        <p class="tip">{{item.tip}}</p>
+      </div>
+    </div>
+    {{/each}}
+  </div>
+  <script src="/js/libs.js"></script>
+  <script>
+      const newsBox = $('.context_box');
+      if(!newsBox.length){
+        newsBox.innerHTML = newsBox.innerHTML.replace(/\n/g, '</br>')
+      }else{
+        [...newsBox].forEach(item => {
+        item.innerHTML = item.innerHTML.replace(/\n/g, '</br>')
+      })
+      }
+      
+    
+    
+
+  </script>
+</body>
+</html>

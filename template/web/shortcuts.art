@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>@jun 的博客</title>
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+ {{include './components/left_menu.art'}}
+  <div class="rig_container">
+    <header class="head">
+      <nav>
+        <ul>
+          <li><a href="/shortcuts/all">全部</a></li>
+          <li><a href="/shortcuts/design">设计</a></li>
+          <li><a href="/shortcuts/webfront">前端</a></li>
+          <li><a href="/shortcuts/node">Node</a></li>
+          <li><a href="/shortcuts/linux">Linux</a></li>
+          <li><a href="/shortcuts/mac">Mac</a></li>
+          <li><a href="/shortcuts/poppin">Poppin</a></li>
+          <li><a href="/shortcuts/other">Other</a></li>
+        </ul>
+      </nav>
+    </header>
+    
+    <div class="short_box">
+
+    {{each data}}
+      <div class="list">
+        <a href="{{$value.shortcuts_url}}" target="_blank">
+          <h3 class="title">{{$value.title}}</h3>
+        </a>
+        <p class="desc">{{$value.shortcuts_desc}}</p>
+      </div>
+    {{/each}}
+
+    </div>
+    
+  </div>
+  <script src="/js/libs.js"></script>
+  <script>
+    const nav_li = [...$('.head','a')];
+
+    nav_li.forEach((li) =>{
+      li.onclick =()=>{
+        nav_li.forEach(item =>item.className = '')
+        li.className = 'act'
+      }
+    })
+
+    const label = '{{label}}'
+    console.log(label)
+    nav_li.forEach(item =>{
+      if(item.href.indexOf(label) !== -1){
+        item.className = 'act'
+      }
+    })
+  </script>
+</body>
+</html>
